@@ -1,43 +1,58 @@
-@font-face {
-  font-family: "Clear Sans";
-  src: url("../clear-sans.ttf") format("truetype");
-}
+<template>
+  <span :class="classes">{{ tile.value }}</span>
+</template>
 
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  font-family: "Clear Sans", sans-serif;
-  font-size: 21px;
-}
+<script>
+import { toRefs, ref, computed } from "vue";
+export default {
+  props: {
+    tile: {
+      type: Object,
+      required: true,
+    },
+  },
+  setup(props) {
+    const { tile } = toRefs(props);
+    const classes = computed(() => {
+      var classArray = ["tile"];
+      classArray.push("tile" + tile.value.value);
+      if (!tile.value.mergedInto) {
+        classArray.push("position_" + tile.value.row + "_" + tile.value.column);
+      }
+      if (tile.value.mergedInto) {
+        classArray.push("merged");
+      }
+      if (tile.value.isNew()) {
+        classArray.push("new");
+      }
+      if (tile.value.hasMoved()) {
+        classArray.push(
+          "row_from_" + tile.value.fromRow() + "_to_" + tile.value.toRow()
+        );
+        classArray.push(
+          "column_from_" +
+            tile.value.fromColumn() +
+            "_to_" +
+            tile.value.toColumn()
+        );
+        classArray.push("isMoving");
+      }
 
-.text {
-  order: 2;
-  padding-top: 40px;
-  width: 440px;
-  font-weight: bold;
-}
+      return classArray.join(" ");
+    });
+    return {
+      classes,
+    };
+  },
+};
+</script>
 
-.board {
-  order: 1;
-  width: 440px;
-  height: 440px;
-  padding: 5px;
-  background-color: #baa;
-  border-radius: 7px;
-  outline: none;
-  position: relative;
-}
-
-.board .cell,
+<style>
 .tile {
   user-select: none;
   cursor: default;
 }
 
-.cell,
 .tile {
   width: 100px;
   height: 100px;
@@ -128,8 +143,7 @@ body {
   display: inline;
 }
 
-.tile.new,
-.overlay {
+.tile.new {
   animation-duration: 0.2s;
   animation-name: newTile;
   animation-fill-mode: forwards;
@@ -146,36 +160,4 @@ body {
     transform: scale(1);
   }
 }
-
-.overlay {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  left: 0px;
-  right: 0px;
-  font-size: 55px;
-  font-weight: bolder;
-  background-color: rgba(221, 221, 221, 0.5);
-  border-radius: 7px;
-}
-
-.tryAgain {
-  background-color: #876;
-  color: #fff;
-  height: 40px;
-  width: 200px;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-}
-
-.overlay .message {
-  color: #666;
-}
+</style>

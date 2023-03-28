@@ -1,0 +1,35 @@
+<template>
+  <div class="gameApp">
+    <div class="gameApp__afterLoading" v-if="!loading">
+      <BoardView />
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import BoardView from "./layers/2048Layer/BoardView.vue";
+import init from ".";
+import { onMounted, ref } from "vue";
+
+const loading = ref(true);
+onMounted(() => {
+  init().then(() => (loading.value = false));
+});
+</script>
+
+<style>
+@font-face {
+  font-family: "Clear Sans";
+  src: url("./assets/clear-sans.ttf") format("truetype");
+}
+
+.gameApp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-family: "Clear Sans", sans-serif;
+  font-size: 21px;
+}
+</style>
