@@ -5,7 +5,7 @@
 <script>
 export default {
   setup() {
-    return {}
+    return {};
   },
   components: {},
 };

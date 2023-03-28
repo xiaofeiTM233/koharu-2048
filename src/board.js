@@ -91,7 +91,7 @@ Board.size = 4;
 Board.prototype.moveLeft = function () {
   var hasChanged = false;
   for (var row = 0; row < Board.size; ++row) {
-    var currentRow = this.cells[row].filter((tile) => tile.value != 0);
+    var currentRow = this.cells[row].filter(tile => tile.value != 0);
     var resultRow = [];
     for (var target = 0; target < Board.size; ++target) {
       var targetTile = currentRow.length ? currentRow.shift() : this.addTile();
@@ -159,8 +159,8 @@ Board.prototype.move = function (direction) {
 };
 
 Board.prototype.clearOldTiles = function () {
-  this.tiles = this.tiles.filter((tile) => tile.markForDeletion == false);
-  this.tiles.forEach((tile) => {
+  this.tiles = this.tiles.filter(tile => tile.markForDeletion == false);
+  this.tiles.forEach(tile => {
     tile.markForDeletion = true;
   });
 };

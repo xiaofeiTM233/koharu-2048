@@ -17,7 +17,7 @@ import { onMounted, onBeforeUnmount, ref, computed } from "vue";
 export default {
   setup() {
     const board = ref(new Board());
-    const handleKeyDown = (event) => {
+    const handleKeyDown = event => {
       if (board.value.hasWon()) {
         return;
       }
@@ -37,7 +37,7 @@ export default {
       window.removeEventListener("keydown", handleKeyDown);
     });
     const tiles = computed(() => {
-      return board.value.tiles.filter((tile) => tile.value != 0);
+      return board.value.tiles.filter(tile => tile.value != 0);
     });
     return {
       board,

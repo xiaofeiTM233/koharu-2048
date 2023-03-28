@@ -34,12 +34,12 @@ export default {
     });
     const restart = () => {
       props.onrestart && props.onrestart();
-    }
+    };
     return {
       show,
       contents,
-      restart
-    }
+      restart,
+    };
   },
 };
 </script>
