@@ -13,7 +13,7 @@ import Cell from "./components/Cell.vue";
 import TileView from "./components/TileView.vue";
 import GameEndOverlay from "./components/GameEndOverlay.vue";
 import { Board } from "./board";
-import { onMounted, onBeforeUnmount, ref, computed } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 export default {
   setup() {
     const board = ref(new Board());
@@ -37,7 +37,7 @@ export default {
       window.removeEventListener("keydown", handleKeyDown);
     });
     const tiles = computed(() => {
-      return board.value.tiles.filter(tile => tile.value != 0);
+      return board.value.tiles.filter(tile => tile.value !== 0);
     });
     return {
       board,

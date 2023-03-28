@@ -1,25 +1,9 @@
-vue-2048
-==========
+koharu-2048
 
-This is a clone of [2048-react](https://github.com/IvanVergiliev/2048-react).What I do is re-implementing it using [Vue 3.x](https://cn.vuejs.org/),[Vite](https://github.com/vitejs/vite/)
-and [SASS](http://sass-lang.com/).
-**Here is the [living demo](https://pengfu.github.io/vue-2048/)**
+### 项目脚手架
 
-### Install the dependencies
-
-```bash
-yarn
-```
-
-### Run the dev server with hot reload at localhost:3000
-
-```bash
-yarn dev
-```
-
-### Build the app for production
-
-```bash
-yarn build
-```
-
+- 格式化部分用 prettier
+- git提交时通过 husky 自动格式化
+  - 请先执行 pnpm prepare 安装 git hook
+- 部署通过 github action 自动部署
+- 打包和开发使用vite，用 vite-pwa 实现 sw 缓存和 pwa 应用
