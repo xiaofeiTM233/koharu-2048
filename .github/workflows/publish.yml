@@ -27,7 +27,7 @@ jobs:
       - name: Install and Build
         run: |
           pnpm install
-          pnpm build:github
+          pnpm build
           tar -zcvf release.tgz ./dist/*
       - name: Deploy to Server # 执行部署任务
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest # 第三方的 action
