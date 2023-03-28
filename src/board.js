@@ -11,6 +11,9 @@ var rotateLeft = function (matrix) {
   return res;
 };
 
+/**
+ * @type Class
+ */
 var Tile = function (value, row, column) {
   this.value = value || 0;
   this.row = row || -1;
