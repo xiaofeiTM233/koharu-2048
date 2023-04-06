@@ -1,50 +1,49 @@
 <template>
-  <span :class="classes">{{ tile.value }}</span>
+  <span :class="classes" ref="tileView">{{ tile.value }}</span>
 </template>
 
-<script>
-import { toRefs, ref, computed } from "vue";
-export default {
-  props: {
-    tile: {
-      type: Object,
-      required: true,
-    },
-  },
-  setup(props) {
-    const { tile } = toRefs(props);
-    const classes = computed(() => {
-      var classArray = ["tile"];
-      classArray.push("tile" + tile.value.value);
-      if (!tile.value.mergedInto) {
-        classArray.push("position_" + tile.value.row + "_" + tile.value.column);
-      }
-      if (tile.value.mergedInto) {
-        classArray.push("merged");
-      }
-      if (tile.value.isNew()) {
-        classArray.push("new");
-      }
-      if (tile.value.hasMoved()) {
-        classArray.push(
-          "row_from_" + tile.value.fromRow() + "_to_" + tile.value.toRow()
-        );
-        classArray.push(
-          "column_from_" +
-            tile.value.fromColumn() +
-            "_to_" +
-            tile.value.toColumn()
-        );
-        classArray.push("isMoving");
-      }
+<script lang="ts" setup>
+import eventBus from "@/event";
+import { toRefs, ref, computed, watch } from "vue";
+import { Tile } from "../board";
+const props = defineProps<{ tile: Tile }>();
+const { tile } = toRefs(props);
 
-      return classArray.join(" ");
-    });
-    return {
-      classes,
-    };
-  },
-};
+const tileView = ref<HTMLSpanElement | null>(null);
+watch(tile, () => {
+  if ([256, 512, 1024, 2048].includes(tile.value.value)) {
+    if (tileView.value) {
+      eventBus.emit("numberEffect", {
+        value: tile.value.value,
+        element: tileView.value,
+      });
+    }
+  }
+});
+const classes = computed(() => {
+  var classArray = ["tile"];
+  classArray.push("tile" + tile.value.value);
+  if (!tile.value.mergedInto) {
+    classArray.push("position_" + tile.value.row + "_" + tile.value.column);
+  }
+  if (tile.value.mergedInto) {
+    classArray.push("merged");
+  }
+  if (tile.value.isNew()) {
+    classArray.push("new");
+  }
+  if (tile.value.hasMoved()) {
+    classArray.push(
+      "row_from_" + tile.value.fromRow() + "_to_" + tile.value.toRow()
+    );
+    classArray.push(
+      "column_from_" + tile.value.fromColumn() + "_to_" + tile.value.toColumn()
+    );
+    classArray.push("isMoving");
+  }
+
+  return classArray.join(" ");
+});
 </script>
 
 <style>
@@ -54,9 +53,9 @@ export default {
 }
 
 .tile {
-  width: 100px;
-  height: 100px;
-  margin: 5px;
+  width: calc(92% / 4);
+  height: calc(92% / 4);
+  margin: 1%;
   line-height: 90px;
   display: inline-block;
   font-size: 55px;

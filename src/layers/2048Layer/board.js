@@ -1,3 +1,23 @@
+/**
+ * 方向对应的数字
+ */
+const MoveMap = {
+  left: 0,
+  up: 1,
+  right: 2,
+  down: 3,
+};
+
+/**
+ * 难度设置, 影响是生成的最低数字为难度系数*2
+ */
+let difficulty = 1;
+function setDifficulty(newDifficulty) {
+  if (newDifficulty > 0) {
+    difficulty = newDifficulty;
+  }
+}
+
 var rotateLeft = function (matrix) {
   var rows = matrix.length;
   var columns = matrix[0].length;
@@ -137,7 +157,8 @@ Board.prototype.addRandomTile = function () {
   }
   var index = ~~(Math.random() * emptyCells.length);
   var cell = emptyCells[index];
-  var newValue = Math.random() < Board.fourProbability ? 4 : 2;
+  var newValue =
+    Math.random() < Board.fourProbability ? 4 * difficulty : 2 * difficulty;
   this.cells[cell.r][cell.c] = this.addTile(newValue);
 };
 
@@ -196,4 +217,4 @@ Board.prototype.hasLost = function () {
   return !canMove;
 };
 
-export { Board };
+export { Board, MoveMap, Tile, setDifficulty };
