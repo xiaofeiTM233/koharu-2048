@@ -10,3 +10,7 @@ declare module "*.vue" {
 interface String {
   computedCssToNumber(): number;
 }
+
+interface Window {
+  __PIXI_APP__: any;
+}

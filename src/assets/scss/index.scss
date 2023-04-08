@@ -10,7 +10,6 @@
 }
 .koharu-canvas {
   --dlss: 1.5;
-  transform: scale(calc(1 / var(--dlss)));
   transform-origin: 0 0;
   position: absolute;
   top: 0;
