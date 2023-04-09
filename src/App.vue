@@ -4,6 +4,7 @@
       <BoardView class="board" />
     </div>
   </div>
+  <TextLayer />
 </template>
 
 <script lang="ts" setup>
@@ -11,6 +12,7 @@ import BoardView from "./layers/2048Layer/BoardView.vue";
 import init from ".";
 import { onMounted, ref } from "vue";
 import eventBus from "./event";
+import TextLayer from "@/layers/textLayer/TextLayer.vue";
 
 if (import.meta.env.DEV) {
   Reflect.set(window, "eventBus", eventBus);

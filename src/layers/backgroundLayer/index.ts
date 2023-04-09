@@ -2,7 +2,10 @@ import { Application } from "pixi.js";
 import * as PIXI from "pixi.js";
 import { Spine } from "pixi-spine";
 import { SoundLayer } from "@/layers/soundLayer";
-let app: Application;
+import { KoharuAnimation, PlaySound, PlaySoundA } from "@/types/events";
+import eventBus from "@/event";
+let app: Application | undefined;
+let koharu: Spine | undefined;
 const KOHARU_STANDARD_WIDTH = 3460;
 const KOHARU_STANDARD_HEIGHT = 2568;
 const KOHARU_PADDING_BOTTOM = 88;
@@ -16,6 +19,15 @@ const KOHARU_PIVOT_Y = -2255.4;
 const KOHARU_MOUTH_OFFSET = 1412;
 const KOHARU_BODY_SIZE = 0.41588;
 const DLSS = 1; // 别动这玩意 你动你自己来调
+
+const KOHARU_ANIMATION: { [key in KoharuAnimation]: string } = {
+  Idle: "Idle_01",
+  Talk1: "Dev_Talk_01_M",
+  Talk2: "Dev_Talk_02_M",
+  Talk3: "Dev_Talk_03_M",
+  Talk4: "Dev_Talk_04_M",
+  Talk5: "Dev_Talk_05_M",
+};
 
 export const BackgroundLayer = {
   /**
@@ -39,11 +51,9 @@ export const BackgroundLayer = {
     ).then(koharuResource => {
       app = new Application({ width: width, height: height });
       window.__PIXI_APP__ = app;
-      const koharu = new Spine(koharuResource.spineData);
+      koharu = new Spine(koharuResource.spineData);
       koharu.state.addAnimation(0, "Idle_01", true, 0);
-
       SoundLayer.init(koharu);
-
       Reflect.set(koharu, "koharu", "true");
       app.stage.addChild(koharu);
       koharu.autoUpdate = true;
@@ -58,6 +68,8 @@ export const BackgroundLayer = {
       (app.view as unknown as HTMLElement).style.transform = `scale(${
         1 / DLSS
       }) translateX(-${offsetX}px)`;
+      eventBus.on("l2dPlay", BackgroundLayer.playAnimation);
+      eventBus.on("dispose", BackgroundLayer.dispose);
     });
   },
   /**
@@ -66,15 +78,10 @@ export const BackgroundLayer = {
    * @param width 整个游戏界面的宽度(竖屏时为宽度, 横屏时为非模糊区域的宽度)
    */
   resize(height: number, width: number) {
-    if (!app) {
+    if (!app || !koharu) {
       console.error("app not init");
-    }
-    const findList = app.stage.children.filter(it => Reflect.get(it, "koharu"));
-    if (findList.length !== 1) {
-      console.error("没找到小春");
       return;
     }
-    const koharu = findList[0] as Spine;
     // 小春home的大小 3460*2568
     // 小春嘴巴的y:1412
     // 小春的头宽905
@@ -120,6 +127,31 @@ export const BackgroundLayer = {
     koharu.scale.set(scale);
     koharu.pivot.set(KOHARU_PIVOT_X + headOffset, KOHARU_PIVOT_Y + mouthOffset);
     app.renderer.resize(finalWidth, finalHeight);
+  },
+  playAnimation(animation: KoharuAnimation) {
+    if (!koharu) {
+      return;
+    }
+    koharu.state.clearListeners();
+    koharu.state.addListener({
+      event(entry, event) {
+        if (event.data.name !== "Talk")
+          eventBus.emit("playSound", {
+            name: event.data.name as unknown as PlaySoundA,
+          });
+      },
+    });
+    koharu.state.addAnimation(1, KOHARU_ANIMATION[animation], false, 0);
+  },
+  dispose() {
+    if (app) {
+      app.stage.destroy(true);
+      app.destroy(true, true);
+      app = undefined;
+      koharu = undefined;
+    }
+    eventBus.off("l2dPlay", BackgroundLayer.playAnimation);
+    eventBus.off("dispose", BackgroundLayer.dispose);
   },
 };
 
