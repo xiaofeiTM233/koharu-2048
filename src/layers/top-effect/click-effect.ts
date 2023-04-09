@@ -54,7 +54,7 @@ export async function clickEffect(app: Application, x: number, y: number) {
     "https://yuuka.cdn.diyigemt.com/image/ba-all-data/effectTexture/FX_TEX_Triangle_02_a.png"
   ).texture;
   let tl = gsap.timeline();
-  const circleSize = appHeight * 0.03;
+  const circleSize = Math.min(appHeight * 0.03, 20);
   const graphics = new Graphics();
   graphics.lineStyle(0); // draw a circle, set the lineStyle to zero so the circle doesn't have an outline
   graphics.beginFill(0xffffff, 1); // 0xb8e1fe
@@ -219,7 +219,7 @@ export async function clickEffect(app: Application, x: number, y: number) {
   }
   Emitter.registerBehavior(ClickTriangle);
   // 相比整个播放器高度的大小
-  const triangleScaleBase = appHeight / triangle?.width!;
+  const triangleScaleBase = appHeight / 128; // 不知道为啥第一次点击拿不到宽度
   let emitterConfig = {
     frequency: 0.001,
     maxParticles: 4,

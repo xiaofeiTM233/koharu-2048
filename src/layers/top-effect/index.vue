@@ -1,5 +1,5 @@
 <template>
-  <div id="top_effect" @mousedown="trigger" @touchstart="trigger"></div>
+  <div id="top_effect"></div>
 </template>
 
 <script lang="ts" setup>
@@ -24,8 +24,10 @@ watch(
       backgroundAlpha: 0,
       eventMode: "none",
     });
+    topEffectApp.value.view.addEventListener("mousedown", trigger);
+    topEffectApp.value.view.addEventListener("touchstart", trigger);
     elem?.appendChild(topEffectApp.value.view as any);
-    (globalThis as any).__PIXI_APP__ = topEffectApp.value;
+    // (globalThis as any).__PIXI_APP__ = topEffectApp.value;
   }
 );
 
@@ -44,7 +46,7 @@ const trigger = (e: MouseEvent | TouchEvent) => {
   clickEffect(topEffectApp.value, x, y);
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 #top_effect {
   position: absolute;
   top: 0;
@@ -52,5 +54,9 @@ const trigger = (e: MouseEvent | TouchEvent) => {
   width: 100%;
   height: 100%;
   z-index: 99;
+  pointer-events: none;
+  canvas {
+    pointer-events: auto;
+  }
 }
 </style>
