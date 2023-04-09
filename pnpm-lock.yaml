@@ -1,11 +1,13 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@pixi/particle-emitter': ^5.0.8
   '@types/node': ^18.15.10
   '@vitejs/plugin-legacy': 4.0.1
   '@vitejs/plugin-vue': ^4.1.0
   '@vue/compiler-sfc': ^3.0.0-rc.1
   autoprefixer: ^9.8.5
+  gsap: ^3.11.5
   husky: ^8.0.3
   lint-staged: ^13.2.0
   mitt: ^3.0.0
@@ -24,6 +26,8 @@ specifiers:
   vue-tsc: ^1.2.0
 
 dependencies:
+  '@pixi/particle-emitter': registry.npmmirror.com/@pixi/particle-emitter/5.0.8_3ufrvn6r6iqjnhazrtb7ugb4se
+  gsap: registry.npmmirror.com/gsap/3.11.5
   mitt: 3.0.0
   pixi.js: 7.2.3_@pixi+utils@7.2.3
   vue: 3.2.47
@@ -3078,6 +3082,72 @@ packages:
     version: 7.2.3
     dev: false
 
+  registry.npmmirror.com/@pixi/core/7.2.3:
+    resolution: {integrity: sha512-nQT4YFM4BwjBmW69tTLDJuP6qxodTR1QKnOxTugSkwnJoi0xyiXILryF/AVHqnPDYvdJ9iuORnVRcEuQfk436Q==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/core/-/core-7.2.3.tgz}
+    name: '@pixi/core'
+    version: 7.2.3
+    dependencies:
+      '@pixi/color': registry.npmmirror.com/@pixi/color/7.2.3
+      '@pixi/constants': registry.npmmirror.com/@pixi/constants/7.2.3
+      '@pixi/extensions': registry.npmmirror.com/@pixi/extensions/7.2.3
+      '@pixi/math': registry.npmmirror.com/@pixi/math/7.2.3
+      '@pixi/runner': registry.npmmirror.com/@pixi/runner/7.2.3
+      '@pixi/settings': registry.npmmirror.com/@pixi/settings/7.2.3
+      '@pixi/ticker': registry.npmmirror.com/@pixi/ticker/7.2.3
+      '@pixi/utils': registry.npmmirror.com/@pixi/utils/7.2.3
+      '@types/offscreencanvas': registry.npmmirror.com/@types/offscreencanvas/2019.7.0
+    dev: false
+
+  registry.npmmirror.com/@pixi/display/7.2.3_@pixi+core@7.2.3:
+    resolution: {integrity: sha512-bJGH9YpMCWCKKBNJ0Qkqg4BeprXx+tb0Dp1sxbWuqtgkWRHDmgMYZp55W6iZgrCq7ucW2rWXoZus4PWRM6BvZQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/display/-/display-7.2.3.tgz}
+    id: registry.npmmirror.com/@pixi/display/7.2.3
+    name: '@pixi/display'
+    version: 7.2.3
+    peerDependencies:
+      '@pixi/core': 7.2.3
+    dependencies:
+      '@pixi/core': registry.npmmirror.com/@pixi/core/7.2.3
+    dev: false
+
+  registry.npmmirror.com/@pixi/extensions/7.2.3:
+    resolution: {integrity: sha512-HpNk531MEbIQtukGCuKI8JWhHTFL1wE8NMOQvtk1stJHZ19clLowHR8sTGnJhSfSWKcAF35u5vmTje5t5VvELQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/extensions/-/extensions-7.2.3.tgz}
+    name: '@pixi/extensions'
+    version: 7.2.3
+    dev: false
+
+  registry.npmmirror.com/@pixi/math/7.2.3:
+    resolution: {integrity: sha512-aZgI5bz0aiKHh8X0a/sIKaWU78/tcpxpVfPt4IXYB/Yj4cskSwFoYS7a4kSv3s1bprpK/54hJK9x4RmHb/VPhQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/math/-/math-7.2.3.tgz}
+    name: '@pixi/math'
+    version: 7.2.3
+    dev: false
+
+  registry.npmmirror.com/@pixi/particle-emitter/5.0.8_3ufrvn6r6iqjnhazrtb7ugb4se:
+    resolution: {integrity: sha512-OzuZ4+esQo+zJ0u3htuNHHMAE8Ixmr3nz3tEfrTGZHje1vnGyie3ANQj9F0V4OM47oi9jd70njVCmeb7bTkS9A==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/particle-emitter/-/particle-emitter-5.0.8.tgz}
+    id: registry.npmmirror.com/@pixi/particle-emitter/5.0.8
+    name: '@pixi/particle-emitter'
+    version: 5.0.8
+    peerDependencies:
+      '@pixi/constants': '>=6.0.4 <8.0.0'
+      '@pixi/core': '>=6.0.4 <8.0.0'
+      '@pixi/display': '>=6.0.4 <8.0.0'
+      '@pixi/math': '>=6.0.4 <8.0.0'
+      '@pixi/sprite': '>=6.0.4 <8.0.0'
+      '@pixi/ticker': '>=6.0.4 <8.0.0'
+    dependencies:
+      '@pixi/constants': registry.npmmirror.com/@pixi/constants/7.2.3
+      '@pixi/core': registry.npmmirror.com/@pixi/core/7.2.3
+      '@pixi/display': registry.npmmirror.com/@pixi/display/7.2.3_@pixi+core@7.2.3
+      '@pixi/math': registry.npmmirror.com/@pixi/math/7.2.3
+      '@pixi/sprite': registry.npmmirror.com/@pixi/sprite/7.2.3_ubbz2ypfq6xtk5cfbb2bsynukq
+      '@pixi/ticker': registry.npmmirror.com/@pixi/ticker/7.2.3
+    dev: false
+
+  registry.npmmirror.com/@pixi/runner/7.2.3:
+    resolution: {integrity: sha512-VME2Mb4esuen6GAYt7fRKmZuiOX84QU3uPtUx8vPM6oSz2Mm8/RAVHoei9aTjBMXBzOxa/tvxeV4R0L6qYUggg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/runner/-/runner-7.2.3.tgz}
+    name: '@pixi/runner'
+    version: 7.2.3
+    dev: false
+
   registry.npmmirror.com/@pixi/settings/7.2.3:
     resolution: {integrity: sha512-6igzYiVCQ/zxwMGvSMTuZ517Obf3GuXXgXUD0Gyp/gh7IB3w1yq0Zw8A8s3TyjIH1CWlGiXbcsV9R8GZnXsc3g==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/settings/-/settings-7.2.3.tgz}
     name: '@pixi/settings'
@@ -3086,6 +3156,29 @@ packages:
       '@pixi/constants': registry.npmmirror.com/@pixi/constants/7.2.3
       '@types/css-font-loading-module': registry.npmmirror.com/@types/css-font-loading-module/0.0.7
       ismobilejs: registry.npmmirror.com/ismobilejs/1.1.1
+    dev: false
+
+  registry.npmmirror.com/@pixi/sprite/7.2.3_ubbz2ypfq6xtk5cfbb2bsynukq:
+    resolution: {integrity: sha512-NsprxlVBgBWTucL7XdJZ22zkhvqxnuVPLTRSL6KciGx8ZsQfmJCEsS3+jmbXQ5H8zkKFviVHYjx5T5qup5KILQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/sprite/-/sprite-7.2.3.tgz}
+    id: registry.npmmirror.com/@pixi/sprite/7.2.3
+    name: '@pixi/sprite'
+    version: 7.2.3
+    peerDependencies:
+      '@pixi/core': 7.2.3
+      '@pixi/display': 7.2.3
+    dependencies:
+      '@pixi/core': registry.npmmirror.com/@pixi/core/7.2.3
+      '@pixi/display': registry.npmmirror.com/@pixi/display/7.2.3_@pixi+core@7.2.3
+    dev: false
+
+  registry.npmmirror.com/@pixi/ticker/7.2.3:
+    resolution: {integrity: sha512-ad8v5PLG4Lyr1Botx65mh6SenQwnJWSjmYOgzzv320xQIim4l0dBIifB6np+Ro8hD0BTJ3Mc+AY9Q5SH9eU+7Q==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/ticker/-/ticker-7.2.3.tgz}
+    name: '@pixi/ticker'
+    version: 7.2.3
+    dependencies:
+      '@pixi/extensions': registry.npmmirror.com/@pixi/extensions/7.2.3
+      '@pixi/settings': registry.npmmirror.com/@pixi/settings/7.2.3
+      '@pixi/utils': registry.npmmirror.com/@pixi/utils/7.2.3
     dev: false
 
   registry.npmmirror.com/@pixi/utils/7.2.3:
@@ -3243,6 +3336,12 @@ packages:
     name: '@types/node'
     version: 18.15.10
     dev: true
+
+  registry.npmmirror.com/@types/offscreencanvas/2019.7.0:
+    resolution: {integrity: sha512-PGcyveRIpL1XIqK8eBsmRBt76eFgtzuPiSTyKHZxnGemp2yzGzWpjYKAfK3wIMiU7eH+851yEpiuP8JZerTmWg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/offscreencanvas/-/offscreencanvas-2019.7.0.tgz}
+    name: '@types/offscreencanvas'
+    version: 2019.7.0
+    dev: false
 
   registry.npmmirror.com/@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/resolve/-/resolve-1.17.1.tgz}
@@ -4180,6 +4279,12 @@ packages:
     name: graceful-fs
     version: 4.2.11
     dev: true
+
+  registry.npmmirror.com/gsap/3.11.5:
+    resolution: {integrity: sha512-Q89nKCLgoX5xUjznh9LcaIUkz54k1voNucT1Rpf9SJNFIQznBwFqt5qUUQbeVInFyN/n18OUJkpeI6CNEDt74w==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/gsap/-/gsap-3.11.5.tgz}
+    name: gsap
+    version: 3.11.5
+    dev: false
 
   registry.npmmirror.com/has-ansi/2.0.0:
     resolution: {integrity: sha512-C8vBJ8DwUCx19vhm7urhTuUsr4/IyP6l4VzNQDv+ryHQObW3TTTp9yB68WpYgRe2bbaGuZ/se74IqFeVnMnLZg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/has-ansi/-/has-ansi-2.0.0.tgz}

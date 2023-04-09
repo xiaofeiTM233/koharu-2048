@@ -12,18 +12,20 @@
     "stage": "lint-staged "
   },
   "dependencies": {
+    "@pixi/particle-emitter": "^5.0.8",
+    "gsap": "^3.11.5",
     "mitt": "^3.0.0",
     "pixi.js": "^7.2.3",
     "vue": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.10",
-    "lint-staged": "^13.2.0",
     "@vitejs/plugin-legacy": "4.0.1",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vue/compiler-sfc": "^3.0.0-rc.1",
     "autoprefixer": "^9.8.5",
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
     "postcss": "8.4.21",
     "postcss-plugin-px2rem": "0.8.1",
     "postcss-preset-env": "8.0.1",
