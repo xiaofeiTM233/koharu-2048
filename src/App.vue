@@ -1,5 +1,6 @@
 <template>
   <div class="gameApp">
+    <TopEffect :height="playerHeight" :width="playerWidth" />
     <div class="gameApp__afterLoading" v-if="!loading">
       <BoardView class="board" />
     </div>
@@ -13,15 +14,23 @@ import init from ".";
 import { onMounted, ref } from "vue";
 import eventBus from "./event";
 import TextLayer from "@/layers/textLayer/TextLayer.vue";
+import TopEffect from "./layers/top-effect/index.vue";
 
 if (import.meta.env.DEV) {
   Reflect.set(window, "eventBus", eventBus);
   eventBus.on("*", (e, args) => console.log("events:", e, "args:", args));
 }
-
+const playerHeight = ref(0);
+const playerWidth = ref(0);
 const loading = ref(true);
 onMounted(() => {
-  init().then(() => (loading.value = false));
+  init().then(() => {
+    loading.value = false;
+  });
+  setTimeout(() => {
+    playerHeight.value = document.body.clientHeight;
+    playerWidth.value = document.body.clientWidth;
+  }, 40);
 });
 </script>
 

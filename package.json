@@ -12,6 +12,8 @@
     "stage": "lint-staged "
   },
   "dependencies": {
+    "@pixi/particle-emitter": "^5.0.8",
+    "gsap": "^3.11.5",
     "mitt": "^3.0.0",
     "pixi-sound": "^3.0.5",
     "pixi-spine": "^4.0.3",
