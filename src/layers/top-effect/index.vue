@@ -6,6 +6,7 @@
 import { Application } from "pixi.js";
 import { clickEffect } from "./click-effect";
 import { ref, watch } from "vue";
+import { moveEffect } from "./move-effect";
 let props = defineProps<{
   height: number;
   width: number;
@@ -27,6 +28,7 @@ watch(
     topEffectApp.value.view.addEventListener("mousedown", trigger);
     topEffectApp.value.view.addEventListener("touchstart", trigger);
     elem?.appendChild(topEffectApp.value.view as any);
+    moveEffect(topEffectApp.value);
     // (globalThis as any).__PIXI_APP__ = topEffectApp.value;
   }
 );
