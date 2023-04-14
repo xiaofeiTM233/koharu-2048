@@ -10,6 +10,9 @@ dependencies:
   gsap:
     specifier: ^3.11.5
     version: 3.11.5
+  hammerjs:
+    specifier: ^2.0.8
+    version: 2.0.8
   mitt:
     specifier: ^3.0.0
     version: 3.0.0
@@ -24,6 +27,9 @@ dependencies:
     version: 3.2.47
 
 devDependencies:
+  '@types/hammerjs':
+    specifier: ^2.0.41
+    version: 2.0.41
   '@types/node':
     specifier: ^18.15.10
     version: 18.15.10
@@ -2042,6 +2048,10 @@ packages:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: true
 
+  /@types/hammerjs@2.0.41:
+    resolution: {integrity: sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA==}
+    dev: true
+
   /@types/node@18.15.10:
     resolution: {integrity: sha512-9avDaQJczATcXgfmMAW3MIWArOO7A+m90vuCFLr8AotWf8igO/mRoYukrk2cqZVtv38tHs33retzHEilM7FpeQ==}
     dev: true
@@ -2717,6 +2727,11 @@ packages:
 
   /gsap@3.11.5:
     resolution: {integrity: sha512-Q89nKCLgoX5xUjznh9LcaIUkz54k1voNucT1Rpf9SJNFIQznBwFqt5qUUQbeVInFyN/n18OUJkpeI6CNEDt74w==}
+    dev: false
+
+  /hammerjs@2.0.8:
+    resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==}
+    engines: {node: '>=0.8.0'}
     dev: false
 
   /has-bigints@1.0.2:
