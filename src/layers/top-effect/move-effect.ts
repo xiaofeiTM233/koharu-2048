@@ -1,4 +1,11 @@
-import { Application, BLEND_MODES, Point, SimpleRope, Texture } from "pixi.js";
+import {
+  Application,
+  BLEND_MODES,
+  FederatedPointerEvent,
+  Point,
+  SimpleRope,
+  Texture,
+} from "pixi.js";
 import { throttle } from "lodash-es";
 import { triangleEmitter } from "./triangle-emitter";
 const trailTexture = Texture.from(
@@ -42,12 +49,16 @@ export function moveEffect(app: Application) {
   let mouseposition = null as unknown as { x: number; y: number };
   app.stage.interactive = true;
   app.stage.hitArea = app.screen;
-  app.stage.on("mousedown", event => {
+  const actionDown = () => {
     mouseDown = true;
-  });
-  app.stage.on("mouseup", () => {
+  };
+  const actionUp = () => {
     mouseDown = false;
-  });
+  };
+  app.stage.on("mousedown", actionDown);
+  app.stage.on("mouseup", actionUp);
+  app.stage.on("touchstart", actionDown);
+  app.stage.on("touchend", actionUp);
   const triangle = throttle(() => {
     const baseDuration = 0.02;
     const triangleRemove = triangleEmitter({
@@ -59,13 +70,15 @@ export function moveEffect(app: Application) {
       triangleRemove();
     }, 1000 * baseDuration * 18);
   }, 80);
-  app.stage.on("mousemove", event => {
+  const moveEvent = (event: FederatedPointerEvent) => {
     rope.alpha = mouseDown ? 1 : 0;
     mouseposition = mouseposition || { x: 0, y: 0 };
     mouseposition.x = event.global.x;
     mouseposition.y = event.global.y;
     mouseDown && Math.random() > 0.8 && triangle();
-  });
+  };
+  app.stage.on("mousemove", moveEvent);
+  app.stage.on("touchmove", moveEvent);
   function updateHistory(mouseposition: { x: number; y: number }): void {
     // Update the mouse values to history
     historyX.pop();
