@@ -2,7 +2,7 @@ import { Application } from "pixi.js";
 import * as PIXI from "pixi.js";
 import { Spine } from "pixi-spine";
 import { SoundLayer } from "@/layers/soundLayer";
-import { KoharuAnimation, PlaySound, PlaySoundA } from "@/types/events";
+import { KoharuAnimation, KoharuSound } from "@/types/events";
 import eventBus from "@/event";
 let app: Application | undefined;
 let koharu: Spine | undefined;
@@ -135,10 +135,16 @@ export const BackgroundLayer = {
     koharu.state.clearListeners();
     koharu.state.addListener({
       event(entry, event) {
-        if (event.data.name !== "Talk")
+        if (event.data.name !== "Talk") {
+          const name = event.data.name.replace(
+            "sound/",
+            ""
+          ) as unknown as KoharuSound;
           eventBus.emit("playSound", {
-            name: event.data.name as unknown as PlaySoundA,
+            name: name,
           });
+          eventBus.emit("showLive2dText", name);
+        }
       },
     });
     koharu.state.addAnimation(1, KOHARU_ANIMATION[animation], false, 0);
@@ -159,7 +165,7 @@ export function useApplication() {
   return app;
 }
 
-function isMobile() {
+export function isMobile() {
   let isMobile = false;
   if ("maxTouchPoints" in navigator) {
     isMobile = navigator.maxTouchPoints > 0;
