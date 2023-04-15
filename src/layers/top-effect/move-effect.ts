@@ -18,6 +18,7 @@ rectangle.drawEllipse(0, 0, 48, 1);
 rectangle.endFill();
 
 let mouseDown = false;
+// https://pixijs.io/examples/#/demos-advanced/mouse-trail.js
 export function moveEffect(app: Application) {
   if (!app) return;
   // Get the texture for rope.
@@ -49,7 +50,7 @@ export function moveEffect(app: Application) {
   const rope = new SimpleRope(trailTexture, points);
   // 辉光效果
   rope.filters = [
-    new GlowFilter({ distance: 7, outerStrength: 1, color: 0x02d5fa }),
+    new GlowFilter({ distance: 8, outerStrength: 1, color: 0x02d5fa }),
   ];
   // rope.filters = [new AdvancedBloomFilter()];
   // Set the blendmode
@@ -72,6 +73,9 @@ export function moveEffect(app: Application) {
   const actionUp = () => {
     rope.alpha = 0;
     mouseDown = false;
+    setTimeout(() => {
+      mouseDown = false;
+    }, 40);
   };
   window.addEventListener("mousedown", actionDown);
   window.addEventListener("mouseup", actionUp);
