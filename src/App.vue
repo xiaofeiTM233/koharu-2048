@@ -1,6 +1,6 @@
 <template>
   <div class="gameApp">
-    <TopEffect :height="playerHeight" :width="playerWidth" />
+    <TopEffect />
     <div class="gameApp__afterLoading" v-if="!loading">
       <BoardView />
     </div>
@@ -39,10 +39,6 @@ onMounted(() => {
   init().then(() => {
     loading.value = false;
   });
-  setTimeout(() => {
-    playerHeight.value = document.body.clientHeight;
-    playerWidth.value = document.body.clientWidth;
-  }, 40);
 });
 </script>
 
