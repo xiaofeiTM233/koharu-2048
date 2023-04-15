@@ -9,6 +9,7 @@ import {
 import { throttle } from "lodash-es";
 import { GlowFilter } from "@pixi/filter-glow";
 import { triangleEmitter } from "./triangle-emitter";
+import { getXY } from "./util";
 
 const rectangle = new Graphics();
 rectangle.lineStyle(2, 0xffffff, 1);
@@ -59,9 +60,10 @@ export function moveEffect(app: Application) {
   let mouseposition = null as unknown as { x: number; y: number };
   app.stage.interactive = true;
   app.stage.hitArea = app.screen;
-  const actionDown = (event: FederatedPointerEvent) => {
-    initHistory({ ...event.global });
-    mouseposition = event.global;
+  const actionDown = (e: MouseEvent | TouchEvent) => {
+    const xy = getXY(e);
+    initHistory({ ...xy });
+    mouseposition = xy;
     // 延迟一点, 不一拖动就显示
     setTimeout(() => {
       mouseDown = true;
@@ -71,10 +73,10 @@ export function moveEffect(app: Application) {
     rope.alpha = 0;
     mouseDown = false;
   };
-  app.stage.on("mousedown", actionDown);
-  app.stage.on("mouseup", actionUp);
-  app.stage.on("touchstart", actionDown);
-  app.stage.on("touchend", actionUp);
+  window.addEventListener("mousedown", actionDown);
+  window.addEventListener("mouseup", actionUp);
+  window.addEventListener("touchstart", actionDown);
+  window.addEventListener("touchend", actionUp);
   const triangle = throttle(() => {
     const baseDuration = 0.02;
     const triangleRemove = triangleEmitter({
@@ -86,16 +88,16 @@ export function moveEffect(app: Application) {
       triangleRemove();
     }, 1000 * baseDuration * 18);
   }, 80);
-  const moveEvent = (event: FederatedPointerEvent) => {
+  const moveEvent = (e: MouseEvent | TouchEvent) => {
     if (!mouseDown) return;
+    const xy = getXY(e);
     rope.alpha = 1;
     mouseposition = mouseposition || { x: 0, y: 0 };
-    mouseposition.x = event.global.x;
-    mouseposition.y = event.global.y;
+    mouseposition = xy;
     Math.random() > 0.8 && triangle();
   };
-  app.stage.on("mousemove", moveEvent);
-  app.stage.on("touchmove", moveEvent);
+  window.addEventListener("mousemove", moveEvent);
+  window.addEventListener("touchmove", moveEvent);
   function updateHistory(mouseposition: { x: number; y: number }): void {
     // Update the mouse values to history
     historyX.pop();
@@ -157,4 +159,5 @@ export function moveEffect(app: Application) {
       (t3 - t2) * m[1]
     );
   }
+  return { actionDown, actionUp, moveEvent };
 }

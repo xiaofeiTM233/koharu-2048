@@ -9,6 +9,7 @@ import { moveEffect } from "./move-effect";
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import Hammer from "hammerjs";
 import eventBus from "@/event";
+import { getXY } from "./util";
 const topEffectApp = ref();
 const uiElement = ref<HTMLDivElement | null>(null);
 setTimeout(() => {
@@ -24,25 +25,15 @@ setTimeout(() => {
     backgroundAlpha: 0,
     eventMode: "none",
   });
-  topEffectApp.value.view.addEventListener("mousedown", trigger);
-  topEffectApp.value.view.addEventListener("touchstart", trigger);
+  window.addEventListener("mousedown", trigger);
+  window.addEventListener("touchstart", trigger);
   elem?.appendChild(topEffectApp.value.view as any);
   moveEffect(topEffectApp.value);
   // (globalThis as any).__PIXI_APP__ = topEffectApp.value;
 }, 40);
 
 const trigger = (e: MouseEvent | TouchEvent) => {
-  let x = 0,
-    y = 0;
-  if (e instanceof MouseEvent) {
-    x = e.offsetX;
-    y = e.offsetY;
-  }
-  if (e instanceof TouchEvent) {
-    var rect = (e.target as any).getBoundingClientRect();
-    x = e.targetTouches[0].pageX - rect.left;
-    y = e.targetTouches[0].pageY - rect.top;
-  }
+  const { x, y } = getXY(e);
   clickEffect(topEffectApp.value, x, y);
 };
 
@@ -85,10 +76,7 @@ onBeforeUnmount(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 10;
+  z-index: 100;
   pointer-events: none;
-  canvas {
-    pointer-events: auto;
-  }
 }
 </style>
