@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="action-button-group">
-        <div class="action-button" @click="">
+        <div class="action-button" @click="handlePlanaNext">
           <div class="action-button-pic help-pic">
             <svg
               width="18"

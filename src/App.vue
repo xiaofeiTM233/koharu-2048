@@ -18,7 +18,7 @@ import TextLayer from "@/layers/textLayer/TextLayer.vue";
 import TopEffect from "./layers/top-effect/index.vue";
 import GameOverScreen from "@/layers/textLayer/assets/GameOverScreen.vue";
 
-const showGameOverScreen = ref(true);
+const showGameOverScreen = ref(false);
 
 if (import.meta.env.DEV) {
   Reflect.set(window, "eventBus", eventBus);
