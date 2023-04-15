@@ -16,7 +16,7 @@ export async function clickEffect(app: Application, x: number, y: number) {
   const appWidth = app.view.width;
   const appHeight = app.view.height / 2; // 通过 resolution 抗锯齿后需要重新算一下高度, 如果直接用图片不用 graphics 生成就没那锯齿这问题了
   let tl = gsap.timeline();
-  const circleSize = Math.min(appHeight * 0.03, 20);
+  const circleSize = Math.min(appHeight * 0.03, 16);
   const graphics = new Graphics();
   graphics.lineStyle(0); // draw a circle, set the lineStyle to zero so the circle doesn't have an outline
   graphics.beginFill(0xffffff, 1); // 0xb8e1fe
@@ -76,7 +76,7 @@ export async function clickEffect(app: Application, x: number, y: number) {
       x,
       y,
       appHeight,
-      maxCircleSize: maxCircleSize,
+      maxCircleSize,
       baseDuration,
     });
   }, baseDuration * 1);
@@ -118,7 +118,7 @@ function renderSpinner({
   function circleAnimate({ initStartAngle = 0 }) {
     const halfCircle = new Graphics();
     halfCircle.filters = [
-      new GlowFilter({ distance: 7, outerStrength: 1, color: 0x02d5fa }),
+      new GlowFilter({ distance: 8, outerStrength: 2, color: 0x02d5fa }),
     ];
     app.stage.addChild(halfCircle);
     const ticker = new Ticker();
@@ -146,15 +146,15 @@ function renderSpinner({
     const getRuntimes = (duration: number) =>
       Math.round((duration * 1000) / ticker.deltaMS);
     const toCircleTimes = getRuntimes(baseDuration * 12);
-    const waitCircleTimes = getRuntimes(baseDuration * 28);
-    const toHideTimes = getRuntimes(baseDuration * 150);
+    const waitCircleTimes = getRuntimes(baseDuration * 20);
+    const toHideTimes = getRuntimes(baseDuration * 80);
     const toCircleSpeed = Math.PI / toCircleTimes;
     const toHideSpeed = Math.PI / (toHideTimes - waitCircleTimes);
     ticker.add(() => {
       times++;
       if (times >= waitCircleTimes) {
         if (!hasReduce) {
-          startAngle = endAngle - Math.PI / 6;
+          startAngle = endAngle - Math.PI / 4;
           hasReduce = true;
         }
         startAngle += Math.PI / 360 + toHideSpeed;
@@ -186,8 +186,11 @@ function drawArc(
   endAngle = 0,
   yRadius = 0
 ) {
+  const base = 1;
+  const highRadius = radius * base;
   halfCircle.clear();
-  halfCircle.lineStyle(2, 0xffffff);
-  halfCircle.arc(x, y, radius, startAngle, endAngle);
+  halfCircle.lineStyle(Math.min(highRadius * 0.1, 1), 0xffffff);
+  halfCircle.arc(x, y, highRadius, startAngle, endAngle);
+  halfCircle.scale.set(1 / base);
   halfCircle.endFill();
 }
