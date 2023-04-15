@@ -9,32 +9,27 @@ import { moveEffect } from "./move-effect";
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import Hammer from "hammerjs";
 import eventBus from "@/event";
-let props = defineProps<{
-  height: number;
-  width: number;
-}>();
 const topEffectApp = ref();
 const uiElement = ref<HTMLDivElement | null>(null);
-watch(
-  () => [props.width, props.height],
-  () => {
-    const elem = document.querySelector(`#top_effect`);
-    topEffectApp.value = new Application({
-      height: props.height,
-      width: props.width,
-      antialias: true,
-      autoDensity: true,
-      resolution: 2,
-      backgroundAlpha: 0,
-      eventMode: "none",
-    });
-    topEffectApp.value.view.addEventListener("mousedown", trigger);
-    topEffectApp.value.view.addEventListener("touchstart", trigger);
-    elem?.appendChild(topEffectApp.value.view as any);
-    moveEffect(topEffectApp.value);
-    // (globalThis as any).__PIXI_APP__ = topEffectApp.value;
-  }
-);
+setTimeout(() => {
+  const height = document.body.clientHeight;
+  const width = document.body.clientWidth;
+  const elem = document.querySelector(`#top_effect`);
+  topEffectApp.value = new Application({
+    height,
+    width,
+    antialias: true,
+    autoDensity: true,
+    resolution: 2,
+    backgroundAlpha: 0,
+    eventMode: "none",
+  });
+  topEffectApp.value.view.addEventListener("mousedown", trigger);
+  topEffectApp.value.view.addEventListener("touchstart", trigger);
+  elem?.appendChild(topEffectApp.value.view as any);
+  moveEffect(topEffectApp.value);
+  // (globalThis as any).__PIXI_APP__ = topEffectApp.value;
+}, 40);
 
 const trigger = (e: MouseEvent | TouchEvent) => {
   let x = 0,
@@ -90,7 +85,7 @@ onBeforeUnmount(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 99;
+  z-index: 10;
   pointer-events: none;
   canvas {
     pointer-events: auto;

@@ -1,46 +1,56 @@
 import {
   Application,
-  BLEND_MODES,
   FederatedPointerEvent,
+  Graphics,
   Point,
   SimpleRope,
   Texture,
 } from "pixi.js";
 import { throttle } from "lodash-es";
+import { GlowFilter } from "@pixi/filter-glow";
 import { triangleEmitter } from "./triangle-emitter";
-const trailTexture = Texture.from(
-  "https://yuuka.cdn.diyigemt.com/image/ba-all-data/effectTexture/trail-256x16.png"
-);
+
+const rectangle = new Graphics();
+rectangle.lineStyle(2, 0xffffff, 1);
+rectangle.beginFill(0xffffff);
+rectangle.drawEllipse(0, 0, 48, 1);
+rectangle.endFill();
+
 let mouseDown = false;
 export function moveEffect(app: Application) {
   if (!app) return;
   // Get the texture for rope.
   let historyX = [] as number[];
   let historyY = [] as number[];
+  const trailTexture = app.renderer.generateTexture(rectangle);
 
   // historySize determines how long the trail will be.
   const historySize = 20;
   // ropeSize determines how smooth the trail will be.
-  const ropeSize = 200;
+  const ropeSize = 50;
   const points = [] as Point[];
 
   // Create rope points.
   for (let i = 0; i < ropeSize; i++) {
     points.push(new Point(0, 0));
   }
-  function initHistory() {
+  function initHistory({ x, y }: { x: number; y: number }) {
     historyX = [];
     historyY = [];
     // Create history array.
     for (let i = 0; i < historySize; i++) {
-      historyX.push(0);
-      historyY.push(0);
+      historyX.push(x);
+      historyY.push(y);
     }
   }
-  initHistory();
+  initHistory({ x: 0, y: 0 });
   // Create the rope
   const rope = new SimpleRope(trailTexture, points);
-
+  // 辉光效果
+  rope.filters = [
+    new GlowFilter({ distance: 7, outerStrength: 1, color: 0x02d5fa }),
+  ];
+  // rope.filters = [new AdvancedBloomFilter()];
   // Set the blendmode
   // rope.blendMode = BLEND_MODES.ADD;
 
@@ -49,10 +59,16 @@ export function moveEffect(app: Application) {
   let mouseposition = null as unknown as { x: number; y: number };
   app.stage.interactive = true;
   app.stage.hitArea = app.screen;
-  const actionDown = () => {
-    mouseDown = true;
+  const actionDown = (event: FederatedPointerEvent) => {
+    initHistory({ ...event.global });
+    mouseposition = event.global;
+    // 延迟一点, 不一拖动就显示
+    setTimeout(() => {
+      mouseDown = true;
+    }, 40);
   };
   const actionUp = () => {
+    rope.alpha = 0;
     mouseDown = false;
   };
   app.stage.on("mousedown", actionDown);
@@ -64,18 +80,19 @@ export function moveEffect(app: Application) {
     const triangleRemove = triangleEmitter({
       app,
       ...mouseposition,
-      maxCircleSize: Math.min((app.view.height / 2) * 0.03, 20) * Math.random(),
+      maxCircleSize: 12,
     });
     setTimeout(() => {
       triangleRemove();
     }, 1000 * baseDuration * 18);
   }, 80);
   const moveEvent = (event: FederatedPointerEvent) => {
-    rope.alpha = mouseDown ? 1 : 0;
+    if (!mouseDown) return;
+    rope.alpha = 1;
     mouseposition = mouseposition || { x: 0, y: 0 };
     mouseposition.x = event.global.x;
     mouseposition.y = event.global.y;
-    mouseDown && Math.random() > 0.8 && triangle();
+    Math.random() > 0.8 && triangle();
   };
   app.stage.on("mousemove", moveEvent);
   app.stage.on("touchmove", moveEvent);
@@ -88,7 +105,7 @@ export function moveEffect(app: Application) {
   }
   // Listen for animate update
   app.ticker.add(() => {
-    if (!mouseposition) return;
+    if (!mouseposition || !mouseDown) return;
 
     updateHistory(mouseposition);
     // Update the points to correspond with history.

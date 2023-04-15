@@ -1,6 +1,14 @@
-import { Application, Container, Graphics, Sprite, extensions } from "pixi.js";
+import {
+  Application,
+  Container,
+  Graphics,
+  Sprite,
+  Ticker,
+  extensions,
+} from "pixi.js";
 import gsap from "gsap";
 import { wait } from "@/utils";
+import { GlowFilter } from "@pixi/filter-glow";
 import { emitterStarter, triangleEmitter } from "./triangle-emitter";
 
 export async function clickEffect(app: Application, x: number, y: number) {
@@ -36,7 +44,7 @@ export async function clickEffect(app: Application, x: number, y: number) {
         pixi: {
           tint: 0xb8e1fe,
         },
-        duration: baseDuration * 4,
+        duration: baseDuration * 3,
       },
       "<"
     )
@@ -47,7 +55,7 @@ export async function clickEffect(app: Application, x: number, y: number) {
           tint: 0xb8e1fe,
           alpha: 0.4,
         },
-        duration: baseDuration * 8,
+        duration: baseDuration * 5,
       },
       "<"
     )
@@ -58,65 +66,19 @@ export async function clickEffect(app: Application, x: number, y: number) {
           tint: 0x01d4fb,
           alpha: 0,
         },
-        duration: baseDuration * 4,
+        duration: baseDuration * 3,
       },
       ">"
     );
   setTimeout(() => {
-    // 白色的border
-    const ring = new Graphics();
-    const borderWidth = 0.1 * appHeight;
-    ring.lineStyle(borderWidth, 0xffffff, 1);
-    ring.drawCircle(x, y, appHeight); // 设大一点, 避免锯齿
-    ring.endFill();
-    const ringTexture = app.renderer.generateTexture(ring as any);
-    const ringSprite = new Sprite(ringTexture as any);
-    app.stage.addChild(ringSprite);
-    const curSize = maxCircleSize * 0.6 * 2;
-    ringSprite.width = curSize;
-    ringSprite.height = curSize;
-    ringSprite.anchor.set(0.5);
-    setTimeout(() => {
-      // 中途变细, 体现出 border 的变化感
-      const ring = new Graphics();
-      ring.lineStyle(borderWidth * 0.6, 0xffffff, 1);
-      ring.drawCircle(x, y, appHeight);
-      ring.endFill();
-      const ringTexture = app.renderer.generateTexture(ring as any);
-      ringSprite.texture = ringTexture;
-    }, 1000 * 10 * baseDuration);
-    ringSprite.texture = ringTexture;
-    ringSprite.alpha = 0.8;
-    ringSprite.position.set(x, y);
-    tl = gsap.timeline();
-    tl.to(ringSprite, {
-      pixi: {
-        tint: 0xffffff,
-        alpha: 1,
-      },
-      duration: baseDuration * 1,
-    })
-      .to(
-        ringSprite,
-        {
-          pixi: {
-            width: maxCircleSize * 0.9 * 2,
-            height: maxCircleSize * 0.9 * 2,
-          },
-          duration: baseDuration * 12,
-        },
-        ">"
-      )
-      .to(ringSprite, {
-        pixi: {
-          width: maxCircleSize * 2,
-          height: maxCircleSize * 2,
-        },
-        duration: baseDuration * 4,
-      })
-      .then(() => {
-        app.stage.removeChild(ringSprite);
-      });
+    renderSpinner({
+      app,
+      x,
+      y,
+      appHeight,
+      maxCircleSize: maxCircleSize,
+      baseDuration,
+    });
   }, baseDuration * 1);
   // 中心的那个点
   const point = new Graphics();
@@ -136,4 +98,96 @@ export async function clickEffect(app: Application, x: number, y: number) {
   app.stage.removeChild(point);
   app.stage.removeChild(circle);
   ringRemover();
+}
+// 转圈的 border
+function renderSpinner({
+  app,
+  x,
+  y,
+  maxCircleSize,
+  baseDuration,
+}: {
+  app: Application;
+  x: number;
+  y: number;
+  maxCircleSize: number;
+  appHeight: number;
+  baseDuration: number;
+}) {
+  let radius = maxCircleSize / 2;
+  function circleAnimate({ initStartAngle = 0 }) {
+    const halfCircle = new Graphics();
+    halfCircle.filters = [
+      new GlowFilter({ distance: 7, outerStrength: 1, color: 0x02d5fa }),
+    ];
+    app.stage.addChild(halfCircle);
+    const ticker = new Ticker();
+    let startAngle = initStartAngle;
+    let endAngle = initStartAngle;
+    const tl = gsap.timeline();
+    const temVal = { radius };
+    tl.to(
+      temVal,
+      {
+        radius: radius * 0.9 * 2,
+        duration: baseDuration * 12,
+      },
+      ">"
+    ).to(temVal, {
+      radius: radius * 2,
+      duration: baseDuration * 4,
+    });
+    const stop = () => {
+      app.stage.removeChild(halfCircle);
+      ticker.stop();
+    };
+    let hasReduce = false;
+    let times = 0;
+    const getRuntimes = (duration: number) =>
+      Math.round((duration * 1000) / ticker.deltaMS);
+    const toCircleTimes = getRuntimes(baseDuration * 12);
+    const waitCircleTimes = getRuntimes(baseDuration * 28);
+    const toHideTimes = getRuntimes(baseDuration * 150);
+    const toCircleSpeed = Math.PI / toCircleTimes;
+    const toHideSpeed = Math.PI / (toHideTimes - waitCircleTimes);
+    ticker.add(() => {
+      times++;
+      if (times >= waitCircleTimes) {
+        if (!hasReduce) {
+          startAngle = endAngle - Math.PI / 6;
+          hasReduce = true;
+        }
+        startAngle += Math.PI / 360 + toHideSpeed;
+        endAngle += Math.PI / 360;
+      }
+      if (times <= waitCircleTimes) {
+        startAngle += Math.PI / 180;
+        endAngle += Math.PI / 180 + toCircleSpeed;
+      }
+      if (startAngle > endAngle || times > toHideTimes) {
+        stop();
+      }
+      drawArc(halfCircle, x, y, temVal.radius, startAngle, endAngle);
+    });
+    ticker.start();
+    return;
+  }
+  circleAnimate({ initStartAngle: 0 });
+  circleAnimate({ initStartAngle: Math.PI });
+}
+
+// https://codepen.io/jasonsturges/pen/zYqGEzZ
+function drawArc(
+  halfCircle: Graphics,
+  x: number,
+  y: number,
+  radius: number,
+  startAngle: number,
+  endAngle = 0,
+  yRadius = 0
+) {
+  halfCircle.clear();
+  halfCircle.lineStyle(2, 0xffffff);
+  halfCircle.arc(x, y, radius, startAngle, endAngle);
+  halfCircle.endFill();
 }

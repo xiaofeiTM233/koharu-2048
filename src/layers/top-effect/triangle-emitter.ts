@@ -171,7 +171,7 @@ export function triangleEmitter({
               { value: "#ffffff", time: 0 },
               { value: "#ffffff", time: 3 / 13 },
               { value: "#02d5fa", time: 4 / 13 },
-              { value: "#02d5fa", time: 1 },
+              { value: "#b8e1fe", time: 1 },
             ],
           },
         },

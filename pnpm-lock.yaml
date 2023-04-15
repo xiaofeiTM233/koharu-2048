@@ -1,6 +1,8 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@pixi/filter-advanced-bloom': ^5.1.1
+  '@pixi/filter-glow': ^5.2.1
   '@pixi/particle-emitter': ^5.0.8
   '@pixi/sound': ^5.1.1
   '@types/hammerjs': ^2.0.41
@@ -32,6 +34,8 @@ specifiers:
   vue-tsc: ^1.2.0
 
 dependencies:
+  '@pixi/filter-advanced-bloom': registry.npmmirror.com/@pixi/filter-advanced-bloom/5.1.1_@pixi+core@7.2.4
+  '@pixi/filter-glow': registry.npmmirror.com/@pixi/filter-glow/5.2.1_@pixi+core@7.2.4
   '@pixi/particle-emitter': registry.npmmirror.com/@pixi/particle-emitter/5.0.8_3s7r7xbbksf2wk5sxz5dtwhucq
   '@pixi/sound': registry.npmmirror.com/@pixi/sound/5.1.1_aghqcd5tse5cazfsjow2c4mnti
   gsap: registry.npmmirror.com/gsap/3.11.5
@@ -2438,6 +2442,18 @@ packages:
       '@pixi/core': registry.npmmirror.com/@pixi/core/7.2.4
     dev: false
 
+  registry.npmmirror.com/@pixi/filter-advanced-bloom/5.1.1_@pixi+core@7.2.4:
+    resolution: {integrity: sha512-C5AWmkWKvoYvJ+600qS7rC81E1X1clvrQLw4QE4IiFec5j1b07KhKE78w/BSRYMrBVa0cQ/ju0J1f7XoQYJfdQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/filter-advanced-bloom/-/filter-advanced-bloom-5.1.1.tgz}
+    id: registry.npmmirror.com/@pixi/filter-advanced-bloom/5.1.1
+    name: '@pixi/filter-advanced-bloom'
+    version: 5.1.1
+    peerDependencies:
+      '@pixi/core': ^7.0.0-X
+    dependencies:
+      '@pixi/core': registry.npmmirror.com/@pixi/core/7.2.4
+      '@pixi/filter-kawase-blur': registry.npmmirror.com/@pixi/filter-kawase-blur/5.1.1_@pixi+core@7.2.4
+    dev: false
+
   registry.npmmirror.com/@pixi/filter-alpha/7.2.4_@pixi+core@7.2.4:
     resolution: {integrity: sha512-UTUMSGyktUr+I9vmigqJo9iUhb0nwGyqTTME2xBWZvVGCnl5z+/wHxvIBBCe5pNZ66IM15pGXQ4cDcfqCuP2kA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/filter-alpha/-/filter-alpha-7.2.4.tgz}
     id: registry.npmmirror.com/@pixi/filter-alpha/7.2.4
@@ -2489,6 +2505,28 @@ packages:
     version: 7.2.4
     peerDependencies:
       '@pixi/core': 7.2.4
+    dependencies:
+      '@pixi/core': registry.npmmirror.com/@pixi/core/7.2.4
+    dev: false
+
+  registry.npmmirror.com/@pixi/filter-glow/5.2.1_@pixi+core@7.2.4:
+    resolution: {integrity: sha512-94I4XePDF9yqqA6KQuhPSphEHPJ2lXfqJLn0Bes8VVdwft0Ianj1wALqjoSUeBWqiJbhjBEXGDNkRZhPHvY3Xg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/filter-glow/-/filter-glow-5.2.1.tgz}
+    id: registry.npmmirror.com/@pixi/filter-glow/5.2.1
+    name: '@pixi/filter-glow'
+    version: 5.2.1
+    peerDependencies:
+      '@pixi/core': ^7.0.0-X
+    dependencies:
+      '@pixi/core': registry.npmmirror.com/@pixi/core/7.2.4
+    dev: false
+
+  registry.npmmirror.com/@pixi/filter-kawase-blur/5.1.1_@pixi+core@7.2.4:
+    resolution: {integrity: sha512-nPnJ1ChBFP+4pgFCwC0RJgHAJCetiHcQU3INH7zCdq88cFABmVmhN+wCKRNg4H7lF1EJjaXgFDkTrTreOD/bnw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@pixi/filter-kawase-blur/-/filter-kawase-blur-5.1.1.tgz}
+    id: registry.npmmirror.com/@pixi/filter-kawase-blur/5.1.1
+    name: '@pixi/filter-kawase-blur'
+    version: 5.1.1
+    peerDependencies:
+      '@pixi/core': ^7.0.0-X
     dependencies:
       '@pixi/core': registry.npmmirror.com/@pixi/core/7.2.4
     dev: false
