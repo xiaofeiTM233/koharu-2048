@@ -4,6 +4,8 @@ import { Spine } from "pixi-spine";
 import { SoundLayer } from "@/layers/soundLayer";
 import { KoharuAnimation, KoharuSound } from "@/types/events";
 import eventBus from "@/event";
+import isMobile from "ismobilejs";
+
 let app: Application | undefined;
 let koharu: Spine | undefined;
 const KOHARU_STANDARD_WIDTH = 3460;
@@ -94,7 +96,7 @@ export const BackgroundLayer = {
     let scale;
     let mouthOffset = 0;
     let headOffset = 0;
-    if (isMobile()) {
+    if (clientIsMobile()) {
       // 以高度优先
       // 加高保证嘴巴能被看到
       const screenBodyHeight = height / 2;
@@ -165,27 +167,6 @@ export function useApplication() {
   return app;
 }
 
-export function isMobile() {
-  let isMobile = false;
-  if ("maxTouchPoints" in navigator) {
-    isMobile = navigator.maxTouchPoints > 0;
-  } else if ("msMaxTouchPoints" in navigator) {
-    // @ts-ignore
-    isMobile = navigator.msMaxTouchPoints > 0;
-  } else {
-    // @ts-ignore
-    const mQ = window.matchMedia && matchMedia("(pointer:coarse)");
-    if (mQ && mQ.media === "(pointer:coarse)") {
-      isMobile = Boolean(mQ.matches);
-    } else if ("orientation" in window) {
-      isMobile = true; // deprecated, but good fallback
-    } else {
-      // Only as a last resort, fall back to user agent sniffing
-      const UA = navigator.userAgent;
-      isMobile =
-        /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
-        /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
-    }
-  }
-  return isMobile;
+export function clientIsMobile() {
+  return isMobile(window.navigator).any;
 }

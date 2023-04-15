@@ -40,7 +40,7 @@ export default defineConfig({
     VitePWA({
       injectRegister: 'auto',
       includeManifestIcons: true,
-      registerType: 'prompt',
+      registerType: 'autoUpdate', // 完了，已经部署点开的人更新不了了，，，
       includeAssets: ['favicon/*.png'],
       manifest: {
         name: '小春2048',
@@ -112,7 +112,7 @@ export default defineConfig({
         ],
       },
       // uncomment to unregister service worker
-      // selfDestroying: true,
+      selfDestroying: true,
     }),
     {
       ...clearConsole(),

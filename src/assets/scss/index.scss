@@ -15,7 +15,21 @@
   left: 0;
   z-index: -2;
 }
-.gameApp__afterLoading {
-  position: absolute;
-  bottom: 10px;
+
+
+.action-button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.25rem;
+  width: fit-content;
+  cursor: pointer;
+  transform: skew(-10deg);
+  background: linear-gradient(to right, rgba(244, 245, 247, 1), rgba(223, 234, 255, 1));
+
+  .action-button-pic {
+    transform: skew(10deg);
+    svg, img {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
 }

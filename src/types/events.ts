@@ -1,4 +1,4 @@
-import { MoveMap } from "@/layers/2048Layer/board";
+// import { MoveMap } from "@/layers/2048Layer/board";
 import { CompleteCallback, PlayOptions } from "@pixi/sound";
 
 //以接受事件的层组织事件

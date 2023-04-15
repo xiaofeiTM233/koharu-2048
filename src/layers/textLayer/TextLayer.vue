@@ -1,21 +1,61 @@
 <template>
   <div class="container">
-    <div class="player-info">
-      <div class="padding">
-        <div class="left-side">
-          <div class="level-text setFont">Lv.</div>
-          <div class="player-level setFont">{{ playerLevel }}</div>
+    <div class="display-wrapper">
+      <div class="headup-display">
+        <div class="player-info">
+          <div class="padding">
+            <div class="left-side">
+              <div class="level-text setFont">Lv.</div>
+              <div class="player-level setFont">{{ playerLevel }}</div>
+            </div>
+            <div class="right-side">
+              <div class="player-name setFont">{{ playerName }}</div>
+              <div class="hr"></div>
+              <div class="player-rank setFont">Rank: {{ playerRank }}</div>
+            </div>
+          </div>
         </div>
-        <div class="right-side">
-          <div class="player-name setFont">{{ playerName }}</div>
-          <div class="hr"></div>
-          <div class="player-rank setFont">Rank: {{ playerRank }}</div>
+        <div class="diamond-container">
+          <div class="diamond-pic disSkew"></div>
+          <div class="diamond-number disSkew setFont">{{ gameDuration }}s</div>
         </div>
       </div>
-    </div>
-    <div class="diamond-container">
-      <div class="diamond-pic disSkew"></div>
-      <div class="diamond-number disSkew setFont">{{ diamondNumber }}</div>
+      <div class="action-button-group">
+        <div class="action-button" @click="showHelpDialog = true">
+          <div class="action-button-pic help-pic">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 0C4.02991 0 0 4.02991 0 9C0 13.9701 4.02991 18 9 18C13.9701 18 18 13.9701 18 9C18 4.02991 13.9701 0 9 0ZM9 14.2232C8.55603 14.2232 8.19643 13.8636 8.19643 13.4196C8.19643 12.9757 8.55603 12.6161 9 12.6161C9.44397 12.6161 9.80357 12.9757 9.80357 13.4196C9.80357 13.8636 9.44397 14.2232 9 14.2232ZM10.2636 9.81361C10.0817 9.88387 9.92514 10.0073 9.81441 10.1679C9.70368 10.3284 9.6439 10.5186 9.64286 10.7136V11.1696C9.64286 11.258 9.57054 11.3304 9.48214 11.3304H8.51786C8.42946 11.3304 8.35714 11.258 8.35714 11.1696V10.7377C8.35714 10.2737 8.49174 9.81562 8.75692 9.43393C9.01607 9.06027 9.37768 8.775 9.80357 8.61228C10.4866 8.34911 10.9286 7.77656 10.9286 7.15178C10.9286 6.26585 10.0627 5.54464 9 5.54464C7.93728 5.54464 7.07143 6.26585 7.07143 7.15178V7.30446C7.07143 7.39286 6.99911 7.46518 6.91071 7.46518H5.94643C5.85804 7.46518 5.78571 7.39286 5.78571 7.30446V7.15178C5.78571 6.36228 6.13125 5.625 6.75804 5.07656C7.36071 4.54821 8.15625 4.25893 9 4.25893C9.84375 4.25893 10.6393 4.55022 11.242 5.07656C11.8687 5.625 12.2143 6.36228 12.2143 7.15178C12.2143 8.31294 11.4489 9.35759 10.2636 9.81361Z"
+                fill="#4A6294"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="action-button-group">
+        <div class="action-button" @click="">
+          <div class="action-button-pic help-pic">
+            <svg
+              width="18"
+              height="16"
+              viewBox="0 0 18 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.1485 7.57743L9.39362 0.115912C9.10491 -0.160775 8.68127 0.0888448 8.68127 0.536957V15.463C8.68127 15.9111 9.10491 16.1607 9.39362 15.8841L17.1485 8.41952C17.3725 8.20299 17.3725 7.79397 17.1485 7.57743ZM8.51398 7.57743L0.759101 0.115912C0.470384 -0.160775 0.0467529 0.0888448 0.0467529 0.536957V15.463C0.0467529 15.9111 0.470384 16.1607 0.759101 15.8841L8.51398 8.41952C8.62461 8.31126 8.68127 8.15487 8.68127 7.99848C8.68127 7.84209 8.62461 7.6857 8.51398 7.57743Z"
+                fill="#4A6294"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
     <div
       class="dialog"
@@ -50,7 +90,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { isMobile } from "@/layers/backgroundLayer";
+import { clientIsMobile } from "@/layers/backgroundLayer";
 import BaDialog from "@/layers/textLayer/BaDialog.vue";
 import BaButton from "@/layers/textLayer/BaButton.vue";
 import eventBus from "@/event";
@@ -134,12 +174,12 @@ function relocationDialog(width?: number) {
     return;
   }
   const gameBoardStyle = getComputedStyle(gameBoard);
-  if (!width && isMobile()) {
+  if (!width && clientIsMobile()) {
     width = getComputedStyle(
       document.querySelector("#app")!
     ).width.computedCssToNumber();
   }
-  if (!width && !isMobile()) {
+  if (!width && !clientIsMobile()) {
     width = gameBoardStyle.width.computedCssToNumber() + 60;
   }
   if (!width) {
@@ -233,14 +273,43 @@ const KoharuSoundDurationMap: {
 };
 const playerName = ref("Sensei");
 const playerLevel = ref(85);
-const playerRank = ref(114514);
-const diamondNumber = ref(114514);
+const playerRank = ref("max");
+const gameEnded = ref(false);
+
+function getGameDuration() {
+  return parseInt((localStorage.getItem("gameDuration") as string) || "0");
+}
+
+const gameDuration = ref(getGameDuration());
+
+function setGameDuration(duration: number) {
+  localStorage.setItem("gameDuration", duration.toString());
+}
+
+function recordGameDuration() {
+  gameDuration.value++;
+  setGameDuration(gameDuration.value);
+}
+
+// const timer = setInterval(recordGameDuration, 1000);
+//
+// eventBus.on("gameFail", () => {
+//   clearInterval(timer);
+// });
+//
+// eventBus.on("gameSucceed", () => {
+//   clearInterval(timer);
+// });
+
+function handlePlanaNext() {
+  eventBus.emit("planaNext");
+}
 </script>
 
 <style lang="scss" scoped>
 .setFont {
   // 不是很清楚最后字体怎么决定了，如果决定了就把下面的改了就可以了
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .container {
@@ -250,23 +319,46 @@ const diamondNumber = ref(114514);
   width: 100%;
   height: 100%;
   z-index: -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+
+  .display-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media screen and (min-width: 768px) {
+      width: 768px;
+    }
+  }
+
+  .headup-display {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2rem;
+
+    @media screen and (max-width: 768px) {
+      margin-top: 1rem;
+    }
+  }
+
   .player-info {
-    position: relative;
-    left: -5vw;
-    top: 3vh;
     background-image: linear-gradient(90deg, #255496, #1e3753);
-    width: 50vw;
-    height: 9vh;
+    padding: 0;
     transform: skewX(-10deg);
     border-radius: 8px;
+
     .padding {
       display: grid;
       grid-template-rows: 1fr 1fr;
       grid-template-columns: 2fr 7fr;
-      left: 7vw;
-      width: 43vw;
-      height: 100%;
+      padding: 1rem;
       position: relative;
+
       .left-side {
         grid-row: 1 / span 2;
         grid-column: 1;
@@ -328,7 +420,6 @@ const diamondNumber = ref(114514);
     }
   }
   .diamond-container {
-    position: absolute;
     display: flex;
     flex-direction: row;
     right: 5vw;
@@ -344,7 +435,7 @@ const diamondNumber = ref(114514);
     .diamond-pic {
       margin-left: 15px;
       width: 60px;
-      background-image: url("../../assets/diamond.png");
+      background-image: url("../../assets/clock.svg");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -359,6 +450,9 @@ const diamondNumber = ref(114514);
       font-weight: 400;
     }
   }
+}
+
+@media screen and (min-width: 768px) {
 }
 
 .dialog {
@@ -418,5 +512,10 @@ const diamondNumber = ref(114514);
 .ba-dialog-button-group {
   margin-top: 1rem;
   text-align: center;
+}
+
+.action-button-group {
+  display: flex;
+  flex-direction: column;
 }
 </style>
