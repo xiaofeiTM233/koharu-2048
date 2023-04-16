@@ -7,8 +7,7 @@ import { Application } from "pixi.js";
 import { clickEffect } from "./click-effect";
 import { moveEffect } from "./move-effect";
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
-import Hammer from "hammerjs";
-import eventBus from "@/event";
+
 import { getXY } from "./util";
 import { throttle } from "lodash-es";
 import { clientIsMobile } from "@/utils";
@@ -41,38 +40,6 @@ const trigger = throttle(
   },
   clientIsMobile() ? 40 : 0
 );
-
-const handleKeyDown = (event: KeyboardEvent) => {
-  if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
-    const direction = event.key.replace("Arrow", "").toLowerCase() as
-      | "up"
-      | "down"
-      | "left"
-      | "right";
-    eventBus.emit("move", direction);
-  }
-};
-
-onMounted(() => {
-  window.addEventListener("keydown", handleKeyDown);
-  const swipeHandler = new Hammer(uiElement.value!);
-  swipeHandler.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
-  swipeHandler.on("swipe", e => {
-    console.log(e);
-    for (const direction of ["left", "right", "up", "down"] as const) {
-      if (
-        e.direction ===
-        Reflect.get(Hammer, `DIRECTION_${direction.toUpperCase()}`)
-      ) {
-        eventBus.emit("move", direction);
-        break;
-      }
-    }
-  });
-});
-onBeforeUnmount(() => {
-  window.removeEventListener("keydown", handleKeyDown);
-});
 </script>
 <style lang="scss">
 #top_effect {

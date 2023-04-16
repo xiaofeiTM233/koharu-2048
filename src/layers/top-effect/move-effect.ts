@@ -64,11 +64,12 @@ export function moveEffect(app: Application) {
   let time: any;
   const actionDown = (e: MouseEvent | TouchEvent) => {
     const xy = getXY(e);
+    initHistory({ ...xy });
     mouseposition = xy;
     // 延迟一点, 不一拖动就显示
     time = setTimeout(() => {
       mouseDown = true;
-    }, 100);
+    }, 40);
   };
   const actionUp = () => {
     rope.alpha = 0;
@@ -93,7 +94,6 @@ export function moveEffect(app: Application) {
   const moveEvent = (e: MouseEvent | TouchEvent) => {
     const xy = getXY(e);
     if (!mouseDown) {
-      initHistory({ ...xy });
       return;
     }
     rope.alpha = 1;

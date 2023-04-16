@@ -11,8 +11,9 @@
 
 <script lang="ts" setup>
 import BoardView from "./layers/2048Layer/BoardView.vue";
+import Hammer from "hammerjs";
 import init from ".";
-import { computed, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import eventBus from "./event";
 import TextLayer from "@/layers/textLayer/TextLayer.vue";
 import TopEffect from "./layers/top-effect/index.vue";
@@ -39,6 +40,37 @@ onMounted(() => {
   init().then(() => {
     loading.value = false;
   });
+});
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
+    const direction = event.key.replace("Arrow", "").toLowerCase() as
+      | "up"
+      | "down"
+      | "left"
+      | "right";
+    eventBus.emit("move", direction);
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("keydown", handleKeyDown);
+  const swipeHandler = new Hammer(document.body);
+  swipeHandler.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
+  swipeHandler.on("swipe", e => {
+    console.log(e);
+    for (const direction of ["left", "right", "up", "down"] as const) {
+      if (
+        e.direction ===
+        Reflect.get(Hammer, `DIRECTION_${direction.toUpperCase()}`)
+      ) {
+        eventBus.emit("move", direction);
+        break;
+      }
+    }
+  });
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleKeyDown);
 });
 </script>
 
