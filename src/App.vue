@@ -6,7 +6,6 @@
     </div>
   </div>
   <TextLayer />
-  <GameOverScreen v-if="showGameOverScreen" />
 </template>
 
 <script lang="ts" setup>
@@ -17,21 +16,14 @@ import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import eventBus from "./event";
 import TextLayer from "@/layers/textLayer/TextLayer.vue";
 import TopEffect from "./layers/top-effect/index.vue";
-import GameOverScreen from "@/layers/textLayer/assets/GameOverScreen.vue";
 
-const showGameOverScreen = ref(false);
+
+
 
 if (import.meta.env.DEV) {
   Reflect.set(window, "eventBus", eventBus);
   eventBus.on("*", (e, args) => console.log("events:", e, "args:", args));
 }
-eventBus.on("gameFail", () => {
-  showGameOverScreen.value = true;
-});
-
-eventBus.on("gameSucceed", () => {
-  showGameOverScreen.value = true;
-});
 
 const playerHeight = ref(0);
 const playerWidth = ref(0);
