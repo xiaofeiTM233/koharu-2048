@@ -6,9 +6,8 @@ export const getXY = (e: MouseEvent | TouchEvent) => {
     y = e.pageY;
   }
   if (window.TouchEvent && e instanceof TouchEvent) {
-    var rect = (e.target as any).getBoundingClientRect();
-    x = e.targetTouches[0].pageX - rect.left;
-    y = e.targetTouches[0].pageY - rect.top;
+    x = e.targetTouches[0].pageX;
+    y = e.targetTouches[0].pageY;
   }
   return { x, y };
 };

@@ -26,20 +26,18 @@ setTimeout(() => {
     backgroundAlpha: 0,
     eventMode: "none",
   });
-  window.addEventListener("mousedown", trigger);
+  !clientIsMobile() && window.addEventListener("mousedown", trigger);
   window.addEventListener("touchstart", trigger);
   elem?.appendChild(topEffectApp.value.view as any);
-  moveEffect(topEffectApp.value);
+  !clientIsMobile() && moveEffect(topEffectApp.value);
   // (globalThis as any).__PIXI_APP__ = topEffectApp.value;
 }, 40);
 
-const trigger = throttle(
-  (e: MouseEvent | TouchEvent) => {
-    const { x, y } = getXY(e);
-    clickEffect(topEffectApp.value, x, y);
-  },
-  clientIsMobile() ? 40 : 0
-);
+const trigger = (e: MouseEvent | TouchEvent) => {
+  const { x, y } = getXY(e);
+  console.log(e);
+  clickEffect(topEffectApp.value, x, y);
+};
 </script>
 <style lang="scss">
 #top_effect {

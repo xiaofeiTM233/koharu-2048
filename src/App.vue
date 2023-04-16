@@ -69,6 +69,13 @@ onMounted(() => {
     }
   });
 });
+const getHeight = () => {
+  // We execute the same script as before
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+};
+getHeight();
+window.addEventListener("resize", getHeight);
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", handleKeyDown);
 });
@@ -99,6 +106,8 @@ onBeforeUnmount(() => {
   align-items: center;
   height: calc(100vh - 3rem);
   height: calc(100dvh - 3rem);
+  height: calc(var(--vh, 1vh) * 100 - 3rem);
+  height: calc(var(--vh, 1dvh) * 100 - 3rem);
   justify-content: flex-end;
 }
 </style>
