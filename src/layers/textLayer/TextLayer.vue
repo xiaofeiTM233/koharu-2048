@@ -86,6 +86,12 @@
       <BaButton class="polyblue" @click="onConfirm">确定</BaButton>
     </div>
   </BaDialog>
+  <GameOverScreen
+    v-if="showGameOverScreen"
+    :game-succeed="gameSucceed"
+    :plana-help-count="planaNextCount"
+    :game-duration="gameDuration"
+  />
 </template>
 
 <script setup lang="ts">
@@ -96,6 +102,8 @@ import eventBus from "@/event";
 import { KoharuSound, Live2dTextConfig } from "@/types/events";
 import gsap from "gsap";
 import { clientIsMobile } from "@/utils";
+import event from "@/event";
+import GameOverScreen from "@/layers/textLayer/assets/GameOverScreen.vue";
 
 const dialogMarginRight = 10;
 const dialogMarginLeft = 10;
@@ -280,16 +288,37 @@ function getGameDuration() {
   return parseInt((localStorage.getItem("gameDuration") as string) || "0");
 }
 
+function getPlanaNextCount() {
+  return parseInt((localStorage.getItem("planaNextCount") as string) || "0");
+}
+
 const gameDuration = ref(getGameDuration());
+const planaNextCount = ref(getPlanaNextCount());
 
 function setGameDuration(duration: number) {
   localStorage.setItem("gameDuration", duration.toString());
+}
+
+function setPlanaNextCount(count: number) {
+  localStorage.setItem("planaNextCount", count.toString());
 }
 
 function recordGameDuration() {
   gameDuration.value++;
   setGameDuration(gameDuration.value);
 }
+
+function recordPlanaNext() {
+  planaNextCount.value++;
+  setPlanaNextCount(planaNextCount.value);
+}
+
+eventBus.on("gameStart", () => {
+  gameDuration.value = 0;
+  planaNextCount.value = 0;
+  setGameDuration(0);
+  setPlanaNextCount(0);
+});
 
 // const timer = setInterval(recordGameDuration, 1000);
 //
@@ -302,14 +331,29 @@ function recordGameDuration() {
 // });
 
 function handlePlanaNext() {
+  recordPlanaNext();
   eventBus.emit("planaNext");
 }
+
+const showGameOverScreen = ref(false);
+const gameSucceed = ref(false);
+
+eventBus.on("gameFail", () => {
+  showGameOverScreen.value = true;
+});
+
+eventBus.on("gameSucceed", () => {
+  gameSucceed.value = true;
+  showGameOverScreen.value = true;
+});
 </script>
 
 <style lang="scss" scoped>
 .setFont {
   // 不是很清楚最后字体怎么决定了，如果决定了就把下面的改了就可以了
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, system-ui,
+    "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", BlinkMacSystemFont,
+    "Helvetica Neue", "Hiragino Sans GB", Arial, sans-serif;
 }
 
 .container {
