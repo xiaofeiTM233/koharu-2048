@@ -14,7 +14,8 @@
           <p>
             普拉娜<span v-if="0 !== planaHelpCount"
               >一共帮助了老师
-              <span class="plana-help-text">{{ planaHelpCount }}</span> 次。</span
+              <span class="plana-help-text">{{ planaHelpCount }}</span>
+              次。</span
             ><span v-else
               ><span class="plana-help-text">没有帮助老师</span
               >，不愧是sensei！</span
@@ -34,7 +35,8 @@
           <p>
             普拉娜<span v-if="0 !== planaHelpCount"
               >一共帮助了老师
-              <span class="plana-help-text">{{ planaHelpCount }}</span> 次。</span
+              <span class="plana-help-text">{{ planaHelpCount }}</span>
+              次。</span
             ><span v-else
               ><span class="plana-help-text">没有帮助老师</span
               >，不愧是sensei！</span
@@ -43,8 +45,18 @@
         </div>
         <div>截图分享给其他Sensei，大家一起帮小春做蛋糕吧！</div>
       </div>
-      <div class="action-button restart-action-button" @click="handleRestart">重新开始</div>
-      <vue-qr class="game-over-qr" text="https://koharu.blue-archive.io" />
+      <div class="action-button restart-action-button" @click="handleRestart">
+        重新开始
+      </div>
+      <vue-qr
+        class="game-over-qr"
+        text="https://koharu.blue-archive.io"
+        backgroundColor="#3f88f2"
+        :correctLevel="2"
+        :autoColor="false"
+        colorDark="#ffffff"
+        colorLight="#3f88f2"
+      />
     </div>
   </div>
 </template>
@@ -79,7 +91,8 @@ function secondsToHms(d: number) {
 }
 
 function handleRestart() {
-  eventBus.emit('gameStart');
+  eventBus.emit("gameStart");
+  window.location.reload();
 }
 </script>
 
@@ -120,7 +133,8 @@ function handleRestart() {
       flex-direction: column;
       gap: 0.5rem;
 
-      .victory, .lose {
+      .victory,
+      .lose {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
