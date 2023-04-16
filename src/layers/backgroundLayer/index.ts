@@ -4,7 +4,7 @@ import { Spine } from "pixi-spine";
 import { SoundLayer } from "@/layers/soundLayer";
 import { KoharuAnimation, KoharuSound } from "@/types/events";
 import eventBus from "@/event";
-import isMobile from "ismobilejs";
+import { clientIsMobile } from "@/utils";
 
 let app: Application | undefined;
 let koharu: Spine | undefined;
@@ -165,8 +165,4 @@ export const BackgroundLayer = {
 
 export function useApplication() {
   return app;
-}
-
-export function clientIsMobile() {
-  return isMobile(window.navigator).any;
 }

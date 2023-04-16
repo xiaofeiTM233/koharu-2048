@@ -90,12 +90,12 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { clientIsMobile } from "@/layers/backgroundLayer";
 import BaDialog from "@/layers/textLayer/BaDialog.vue";
 import BaButton from "@/layers/textLayer/BaButton.vue";
 import eventBus from "@/event";
 import { KoharuSound, Live2dTextConfig } from "@/types/events";
 import gsap from "gsap";
+import { clientIsMobile } from "@/utils";
 
 const dialogMarginRight = 10;
 const dialogMarginLeft = 10;

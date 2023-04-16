@@ -61,21 +61,19 @@ export function moveEffect(app: Application) {
   let mouseposition = null as unknown as { x: number; y: number };
   app.stage.interactive = true;
   app.stage.hitArea = app.screen;
+  let time: any;
   const actionDown = (e: MouseEvent | TouchEvent) => {
     const xy = getXY(e);
-    initHistory({ ...xy });
     mouseposition = xy;
     // 延迟一点, 不一拖动就显示
-    setTimeout(() => {
+    time = setTimeout(() => {
       mouseDown = true;
-    }, 40);
+    }, 100);
   };
   const actionUp = () => {
     rope.alpha = 0;
     mouseDown = false;
-    setTimeout(() => {
-      mouseDown = false;
-    }, 40);
+    clearTimeout(time);
   };
   window.addEventListener("mousedown", actionDown);
   window.addEventListener("mouseup", actionUp);
@@ -93,8 +91,11 @@ export function moveEffect(app: Application) {
     }, 1000 * baseDuration * 18);
   }, 80);
   const moveEvent = (e: MouseEvent | TouchEvent) => {
-    if (!mouseDown) return;
     const xy = getXY(e);
+    if (!mouseDown) {
+      initHistory({ ...xy });
+      return;
+    }
     rope.alpha = 1;
     mouseposition = mouseposition || { x: 0, y: 0 };
     mouseposition = xy;

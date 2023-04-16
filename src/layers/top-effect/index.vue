@@ -10,6 +10,8 @@ import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import Hammer from "hammerjs";
 import eventBus from "@/event";
 import { getXY } from "./util";
+import { throttle } from "lodash-es";
+import { clientIsMobile } from "@/utils";
 const topEffectApp = ref();
 const uiElement = ref<HTMLDivElement | null>(null);
 setTimeout(() => {
@@ -32,10 +34,13 @@ setTimeout(() => {
   // (globalThis as any).__PIXI_APP__ = topEffectApp.value;
 }, 40);
 
-const trigger = (e: MouseEvent | TouchEvent) => {
-  const { x, y } = getXY(e);
-  clickEffect(topEffectApp.value, x, y);
-};
+const trigger = throttle(
+  (e: MouseEvent | TouchEvent) => {
+    const { x, y } = getXY(e);
+    clickEffect(topEffectApp.value, x, y);
+  },
+  clientIsMobile() ? 40 : 0
+);
 
 const handleKeyDown = (event: KeyboardEvent) => {
   if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
