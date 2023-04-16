@@ -7,7 +7,7 @@ import {
   extensions,
 } from "pixi.js";
 import gsap from "gsap";
-import { wait } from "@/utils";
+import { clientIsMobile, wait } from "@/utils";
 import { GlowFilter } from "@pixi/filter-glow";
 import { emitterStarter, triangleEmitter } from "./triangle-emitter";
 
@@ -114,6 +114,8 @@ function renderSpinner({
   appHeight: number;
   baseDuration: number;
 }) {
+  // 手机消失快一点
+  baseDuration = clientIsMobile() ? (baseDuration * 2) / 3 : baseDuration * 1.5;
   let radius = maxCircleSize / 2;
   function circleAnimate({ initStartAngle = 0 }) {
     const halfCircle = new Graphics();
@@ -145,9 +147,9 @@ function renderSpinner({
     let times = 0;
     const getRuntimes = (duration: number) =>
       Math.round((duration * 1000) / ticker.deltaMS);
-    const toCircleTimes = getRuntimes(baseDuration * 12);
-    const waitCircleTimes = getRuntimes(baseDuration * 20);
-    const toHideTimes = getRuntimes(baseDuration * 80);
+    const toCircleTimes = getRuntimes(baseDuration * 6);
+    const waitCircleTimes = getRuntimes(baseDuration * 10);
+    const toHideTimes = getRuntimes(baseDuration * 40);
     const toCircleSpeed = Math.PI / toCircleTimes;
     const toHideSpeed = Math.PI / (toHideTimes - waitCircleTimes);
     ticker.add(() => {

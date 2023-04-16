@@ -52,7 +52,7 @@ export const BackgroundLayer = {
       "https://yuuka.cdn.diyigemt.com/image/ba-all-data/spine/Koharu_home/Koharu_home-2x/Koharu_home.skel"
     ).then(koharuResource => {
       app = new Application({ width: width, height: height });
-      window.__PIXI_APP__ = app;
+      // window.__PIXI_APP__ = app;
       koharu = new Spine(koharuResource.spineData);
       koharu.state.addAnimation(0, "Idle_01", true, 0);
       SoundLayer.init(koharu);

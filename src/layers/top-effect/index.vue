@@ -30,7 +30,7 @@ setTimeout(() => {
   window.addEventListener("touchstart", trigger);
   elem?.appendChild(topEffectApp.value.view as any);
   !clientIsMobile() && moveEffect(topEffectApp.value);
-  // (globalThis as any).__PIXI_APP__ = topEffectApp.value;
+  (globalThis as any).__PIXI_APP__ = topEffectApp.value;
 }, 40);
 
 const trigger = (e: MouseEvent | TouchEvent) => {
