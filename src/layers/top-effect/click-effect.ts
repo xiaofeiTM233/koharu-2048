@@ -172,8 +172,10 @@ function renderSpinner({
     ticker.start();
     return;
   }
-  circleAnimate({ initStartAngle: 0 });
-  circleAnimate({ initStartAngle: Math.PI });
+  const first = Math.random() * Math.PI;
+  const second = Math.PI + first;
+  circleAnimate({ initStartAngle: first });
+  circleAnimate({ initStartAngle: second });
 }
 
 // https://codepen.io/jasonsturges/pen/zYqGEzZ

@@ -35,7 +35,6 @@ setTimeout(() => {
 
 const trigger = (e: MouseEvent | TouchEvent) => {
   const { x, y } = getXY(e);
-  console.log(e);
   clickEffect(topEffectApp.value, x, y);
 };
 </script>
