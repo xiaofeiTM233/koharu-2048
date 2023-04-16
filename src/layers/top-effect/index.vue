@@ -20,7 +20,7 @@ setTimeout(() => {
   topEffectApp.value = new Application({
     height,
     width,
-    antialias: true,
+    // antialias: true,
     autoDensity: true,
     resolution: 2,
     backgroundAlpha: 0,
