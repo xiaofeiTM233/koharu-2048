@@ -69,7 +69,7 @@
       <div class="bubble">{{ bubble }}</div>
     </div>
   </div>
-  <BaDialog v-model:show="showHelpDialog" title="提示">
+  <BaDialog v-model:show="showHelpDialog" title="提示" height="500px" width="390px">
     <div class="ba-dialog-content">
       <div class="text">
         <div>和小春一起做蛋糕！</div>
@@ -314,21 +314,22 @@ function recordPlanaNext() {
 }
 
 eventBus.on("gameStart", () => {
+  showGameOverScreen.value = false;
   gameDuration.value = 0;
   planaNextCount.value = 0;
   setGameDuration(0);
   setPlanaNextCount(0);
 });
 
-// const timer = setInterval(recordGameDuration, 1000);
-//
-// eventBus.on("gameFail", () => {
-//   clearInterval(timer);
-// });
-//
-// eventBus.on("gameSucceed", () => {
-//   clearInterval(timer);
-// });
+const timer = setInterval(recordGameDuration, 1000);
+
+eventBus.on("gameFail", () => {
+  clearInterval(timer);
+});
+
+eventBus.on("gameSucceed", () => {
+  clearInterval(timer);
+});
 
 function handlePlanaNext() {
   recordPlanaNext();

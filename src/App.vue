@@ -47,7 +47,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
 onMounted(() => {
   window.addEventListener("keydown", handleKeyDown);
   const swipeHandler = new Hammer(document.body);
-  swipeHandler.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
+  swipeHandler.get("swipe").set({ direction: Hammer.DIRECTION_ALL, threshold: 5 });
   swipeHandler.on("swipe", e => {
     console.log(e);
     for (const direction of ["left", "right", "up", "down"] as const) {

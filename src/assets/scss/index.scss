@@ -1,9 +1,14 @@
 html {
-  font-family: 'Microsoft YaHei', 'PingFang SC', -apple-system, system-ui,
-  'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', BlinkMacSystemFont,
-  'Helvetica Neue', 'Hiragino Sans GB', Arial, sans-serif;
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, system-ui,
+    "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", BlinkMacSystemFont,
+    "Helvetica Neue", "Hiragino Sans GB", Arial, sans-serif;
 
-  --color-arona-blue: #3f88f2;
+  --color-arona-blue: #b2cffa;
+  --color-plana-red: #f19e97;
+
+  background-image: url("@/assets/background.webp");
+  background-size: cover;
+  background-position: center;
 }
 * {
   padding: 0;
@@ -24,18 +29,22 @@ html {
   z-index: -2;
 }
 
-
 .action-button {
   padding: 0.5rem 1.5rem;
   border-radius: 0.25rem;
   width: fit-content;
   cursor: pointer;
   transform: skew(-10deg);
-  background: linear-gradient(to right, rgba(244, 245, 247, 1), rgba(223, 234, 255, 1));
+  background: linear-gradient(
+    to right,
+    rgba(244, 245, 247, 1),
+    rgba(223, 234, 255, 1)
+  );
 
   .action-button-pic {
     transform: skew(10deg);
-    svg, img {
+    svg,
+    img {
       width: 2rem;
       height: 2rem;
     }
