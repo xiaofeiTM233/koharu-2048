@@ -117,9 +117,9 @@ function renderSpinner({
   let radius = maxCircleSize / 2;
   function circleAnimate({ initStartAngle = 0 }) {
     const halfCircle = new Graphics();
-    halfCircle.filters = [
-      new GlowFilter({ distance: 8, outerStrength: 2, color: 0x02d5fa }),
-    ];
+    // halfCircle.filters = [
+    //   new GlowFilter({ distance: 8, outerStrength: 2, color: 0x02d5fa }),
+    // ];
     app.stage.addChild(halfCircle);
     const ticker = new Ticker();
     let startAngle = initStartAngle;
