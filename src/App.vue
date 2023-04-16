@@ -1,6 +1,6 @@
 <template>
   <div class="gameApp">
-    <TopEffect />
+    <!-- <TopEffect /> -->
     <div class="gameApp__afterLoading" v-if="!loading">
       <BoardView />
     </div>
@@ -15,10 +15,7 @@ import init from ".";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import eventBus from "./event";
 import TextLayer from "@/layers/textLayer/TextLayer.vue";
-import TopEffect from "./layers/top-effect/index.vue";
-
-
-
+// import TopEffect from "./layers/top-effect/index.vue";
 
 if (import.meta.env.DEV) {
   Reflect.set(window, "eventBus", eventBus);
@@ -47,7 +44,9 @@ const handleKeyDown = (event: KeyboardEvent) => {
 onMounted(() => {
   window.addEventListener("keydown", handleKeyDown);
   const swipeHandler = new Hammer(document.body);
-  swipeHandler.get("swipe").set({ direction: Hammer.DIRECTION_ALL, threshold: 5 });
+  swipeHandler
+    .get("swipe")
+    .set({ direction: Hammer.DIRECTION_ALL, threshold: 5 });
   swipeHandler.on("swipe", e => {
     console.log(e);
     for (const direction of ["left", "right", "up", "down"] as const) {
